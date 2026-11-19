@@ -19,7 +19,16 @@ const initialRoutines = [
     week: 1,
     day: "Lunes",
     exercises: [
-      { id: 101, name: "Press de Banca plano", sets: 4, reps: 10, weight: 60, completed: false, actualWeight: null }
+      {
+        id: 101,
+        catalogId: 201,
+        name: "Press de Banca plano",
+        sets: 4,
+        reps: 10,
+        weight: 60,
+        completed: false,
+        actualWeight: null
+      }
     ]
   }
 ];
@@ -32,3 +41,9 @@ export const saveAppRoutines = (data) => localStorage.setItem('appRoutines', JSO
 
 export const getAppCatalog = () => JSON.parse(localStorage.getItem('appCatalog')) || initialExercises;
 export const saveAppCatalog = (data) => localStorage.setItem('appCatalog', JSON.stringify(data));
+
+export const calculateDayVolume = (exercises = []) =>
+  exercises.reduce((total, ex) => {
+    const effectiveWeight = ex.actualWeight ?? ex.weight ?? 0;
+    return total + (ex.sets || 0) * (ex.reps || 0) * effectiveWeight;
+  }, 0);
